@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "youtube-websub-pipeline"
+description = "Real-time YouTube monitoring system with agentic AI"
+version = "0.0.1"
+authors = ["M. Sanjay Uddith Raju <uddithmachiraju@gmail.com>"]
+readme = "README.md"
+package-mode = false 
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+ruff = "*"
+mypy = "*"
+pre-commit = "*"
+flake8 = "*"
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
