@@ -5,9 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.db import MongoDB
 from src.api.schemas import HealthCheckResponse
-from src.config.logging import get_logger
+from src.config.logging import get_logger, setup_logging
 from src.config.settings import get_settings
 
+setup_logging()
 settings = get_settings()
 logger = get_logger("fastapi")
 mongodb = MongoDB()
@@ -17,11 +18,11 @@ async def lifespan(app: FastAPI):
     """Lifespan event handler for FastAPI application."""
 
     # Startup event
-    logger.info("Starting up FastAPI application...")
+    logger.info("Starting up FastAPI application")
     await mongodb.connect()
     yield
     # Shutdown event
-    logger.info("Shutting down FastAPI application...")
+    logger.info("Shutting down FastAPI application")
     await mongodb.close()
 
 

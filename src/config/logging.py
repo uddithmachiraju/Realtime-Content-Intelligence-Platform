@@ -16,7 +16,7 @@ def setup_logging() -> None:
 
     # Create log filename with timestamp
     log_filename = os.path.join(
-        settings.logs_directory, f"agentic_rag_{datetime.now().strftime('%Y%m%d')}.log"
+        settings.logs_directory, f"youtube_websub_{datetime.now().strftime('%Y%m%d')}.log"
     )
 
     logging_config: dict[str, Any] = {
@@ -64,7 +64,7 @@ def setup_logging() -> None:
             },
         },
         "loggers": {
-            "agentic_rag": {
+            "youtube_websub": {
                 "level": "DEBUG" if settings.debug else "INFO",
                 "handlers": ["console", "file", "error_file"],
                 "propagate": False,
@@ -80,7 +80,7 @@ def setup_logging() -> None:
 
 def get_logger(name: str) -> logging.Logger:
     """Get a logger with the specified name."""
-    return logging.getLogger(f"agentic_rag.{name}")
+    return logging.getLogger(f"youtube_websub.{name}")
 
 
 class LoggerMixin:
