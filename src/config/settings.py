@@ -29,16 +29,16 @@ class Settings(BaseSettings):
     queue_provider: str = Field("sqs", description="Queue provider to use (e.g., 'sqs')")
 
     # AWS SQS
-    AWS_REGION: str = Field("us-east-1", description="AWS region")
-    SQS_QUEUE_URL: str = Field(..., description="AWS SQS queue URL")
-    AWS_ACCESS_KEY_ID: str = Field(..., description="AWS access key ID")
-    AWS_SECRET_ACCESS_KEY: str = Field(..., description="AWS secret access key")
+    aws_region: str = Field("us-east-1", description="AWS region")
+    sqs_queue_url: str = Field(..., description="AWS SQS queue URL")
+    aws_access_key_id: str = Field(..., description="AWS access key ID")
+    aws_secret_access_key: str = Field(..., description="AWS secret access key")
 
     # MongoDB configuration
-    MONGODB_URI: str = Field(
+    mongodb_uri: str = Field(
         "mongodb://mongodb:27017", description="MongoDB connection URI"
     )  # Use the service name
-    MONGODB_DB_NAME: str = Field("youtube_websub", description="MongoDB database name")
+    mongodb_db_name: str = Field("youtube_websub", description="MongoDB database name")
 
     class Config:
         env_file = ".env"

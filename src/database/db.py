@@ -9,8 +9,8 @@ get_settings()
 
 
 class MongoDB(LoggerMixin):
-    _client: AsyncIOMotorClient = None
-    _database: AsyncIOMotorDatabase = None
+    _client: AsyncIOMotorClient | None = None
+    _database: AsyncIOMotorDatabase | None = None
 
     @property
     def videos(self) -> AsyncIOMotorDatabase:
@@ -32,8 +32,8 @@ class MongoDB(LoggerMixin):
         """Initialize the MongoDB client and database."""
 
         self.settings = get_settings()
-        self.uri = self.settings.MONGODB_URI
-        self.db_name = self.settings.MONGODB_DB_NAME
+        self.uri = self.settings.mongodb_uri
+        self.db_name = self.settings.mongodb_db_name
 
     async def connect(self) -> None:
         """Establish a connection to the MongoDB database."""
@@ -62,6 +62,26 @@ class MongoDB(LoggerMixin):
         if self._client:
             self._client.close()
             self.logger.info("MongoDB connection closed")
+
+    async def upsert_video_data(self, video_data: dict) -> None:
+        """Upsert video data into the MongoDB collection."""
+
+        if self._database is None:
+            raise ValueError("Database connection is not established.")
+
+        try:
+            videos_collection = self._database.videos
+            filter_query = {"video_id": video_data["video_id"]}
+            update_query = {"$set": video_data}
+
+            await videos_collection.update_one(
+                filter_query,
+                update_query,
+                upsert=True,
+            )
+        except Exception as e:
+            self.logger.error(f"Error upserting video data: {e}")
+            raise e
 
     async def is_healthy(self) -> dict:
         """Check if the MongoDB connection is healthy."""

@@ -3,10 +3,10 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.api.db import MongoDB
 from src.api.schemas import HealthCheckResponse
 from src.config.logging import get_logger, setup_logging
 from src.config.settings import get_settings
+from src.database.db import MongoDB
 
 setup_logging()
 settings = get_settings()
@@ -62,6 +62,9 @@ async def add_process_time_header(request: Request, call_next):
 
     return response
 
+# @app.post("/test/consumer", tags=["Test Consumer"])
+# async def test_consumer(payload: dict) -> dict:
+
 
 @app.get("/health", tags=["Health"])
 async def health_check() -> HealthCheckResponse:
@@ -71,14 +74,15 @@ async def health_check() -> HealthCheckResponse:
 
     services_status = [
         {
-            "name": "MongoDB",
+            "service": "MongoDB",
             "status": mongo_health_info["status"],
             "details": mongo_health_info["details"],
         }
     ]
 
     overall_status = (
-        "healthy" if all(s["status"] == "healthy" for s in services_status) else "unhealthy"
+        "healthy" if all(
+            s["status"] == "healthy" for s in services_status) else "unhealthy"
     )
 
     response = HealthCheckResponse(
