@@ -62,3 +62,9 @@ variable "availability_zone" {
     description = "Availability zone for the subnet"
     type        = string
 }
+
+# Variable for domain name associated with Elastic IP
+variable "domain_name" {
+    description = "The domain name associated with the Elastic IP"
+    type        = string
+}

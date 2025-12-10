@@ -52,3 +52,19 @@ output "internet_gateway_id" {
     description = "The ID of the internet gateway"
     value       = module.VPC.internet_gateway_id
 }
+
+# Elastic IP Module Outputs
+output "elastic_ip_address" {
+    description = "The Elastic IP address"
+    value       = module.elastic_ip.elastic_ip
+}
+
+output "elastic_ip_allocation_id" {
+    description = "The Elastic IP allocation ID"
+    value       = module.elastic_ip.allocation_id
+}
+
+output "elastic_ip_association_id" {
+    description = "The Elastic IP association ID"
+    value       = module.elastic_ip.association_id
+}

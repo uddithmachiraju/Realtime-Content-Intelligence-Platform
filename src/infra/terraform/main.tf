@@ -35,3 +35,11 @@ module "EC2" {
     project_name = var.project_name
     environment  = var.environment
 }
+
+module "elastic_ip" {
+    source = "./modules/elastic_ip"
+
+    instance_id  = module.EC2.instance_id
+    project_name = var.project_name
+    domain_name  = var.domain_name
+}
