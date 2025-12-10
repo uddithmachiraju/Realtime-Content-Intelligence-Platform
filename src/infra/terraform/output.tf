@@ -31,3 +31,24 @@ output "role_name" {
     description = "The name of the IAM role"
     value       = module.IAM.role_name
 }
+
+# VPC Module Outputs
+output "vpc_id" {
+    description = "The ID of the VPC"
+    value       = module.VPC.vpc_id
+}
+
+output "public_subnet_id" {
+    description = "The ID of the public subnet"
+    value       = module.VPC.public_subnet_id
+}
+
+output "security_group_id" {
+    description = "The ID of the security group"
+    value       = module.VPC.security_group_id
+}
+
+output "internet_gateway_id" {
+    description = "The ID of the internet gateway"
+    value       = module.VPC.internet_gateway_id
+}

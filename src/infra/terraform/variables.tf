@@ -46,3 +46,19 @@ variable "iam_role_name" {
     description     = "IAM Role name to attach to the EC2 instance"
     type            = string
 }
+
+# Variables for VPC module
+variable "vpc_cidr" {
+    description = "CIDR block for VPC"
+    type        = string
+}
+
+variable "public_subnet_cidr" {
+    description = "CIDR block for public subnet"
+    type        = string
+}
+
+variable "availability_zone" {
+    description = "Availability zone for the subnet"
+    type        = string
+}

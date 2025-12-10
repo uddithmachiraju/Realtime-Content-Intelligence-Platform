@@ -10,16 +10,16 @@ variable "ami" {
     type            = string
 }
 
-# variable "subnet_id" {
-#     description     = "Subnet ID where the EC2 instance will be launched"
-#     type            = string
-# }
+variable "subnet_id" {
+    description     = "Subnet ID where the EC2 instance will be launched"
+    type            = string
+}
 
-# variable "vpc_security_group_ids" {
-#     description     = "List of VPC Security Group IDs to associate with the EC2 instance"
-#     type            = list(string)
-#     default         = []
-# }
+variable "vpc_security_group_ids" {
+    description     = "List of VPC Security Group IDs to associate with the EC2 instance"
+    type            = list(string)
+    default         = []
+}
 
 variable "iam_instance_profile_name" {
     description     = "IAM Instance Profile name to attach to the EC2 instance"
