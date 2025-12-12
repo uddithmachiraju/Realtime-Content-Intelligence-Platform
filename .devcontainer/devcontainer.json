@@ -25,7 +25,7 @@
 	],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "poetry lock && poetry install", 
+	"postCreateCommand": "poetry lock && poetry install && python -m pip install --upgrade pip setuptools wheel --break-system-packages && cd .devcontainer && pip install -r requirements.txt --break-system-packages", 
 
 	// Configure tool-specific properties.
 	"customizations": {

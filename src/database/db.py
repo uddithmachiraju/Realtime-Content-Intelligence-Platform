@@ -4,6 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
 from src.config.logging import LoggerMixin
 from src.config.settings import get_settings
+from src.database.schemas import DatabaseResponse, VideoRecord
 
 get_settings()
 
@@ -28,7 +29,7 @@ class MongoDB(LoggerMixin):
             raise ValueError("Database connection is not established.")
         return self._database
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the MongoDB client and database."""
 
         self.settings = get_settings()
@@ -63,7 +64,7 @@ class MongoDB(LoggerMixin):
             self._client.close()
             self.logger.info("MongoDB connection closed")
 
-    async def upsert_video_data(self, video_data: dict) -> None:
+    async def upsert_video_data(self, video_data: VideoRecord) -> None:
         """Upsert video data into the MongoDB collection."""
 
         if self._database is None:
@@ -71,8 +72,8 @@ class MongoDB(LoggerMixin):
 
         try:
             videos_collection = self._database.videos
-            filter_query = {"video_id": video_data["video_id"]}
-            update_query = {"$set": video_data}
+            filter_query = {"video_id": video_data.video_id}
+            update_query = {"$set": video_data.model_dump()}
 
             await videos_collection.update_one(
                 filter_query,
@@ -83,21 +84,21 @@ class MongoDB(LoggerMixin):
             self.logger.error(f"Error upserting video data: {e}")
             raise e
 
-    async def is_healthy(self) -> dict:
+    async def is_healthy(self) -> DatabaseResponse:
         """Check if the MongoDB connection is healthy."""
 
         try:
             await self._client.admin.command("ping")
-            return {
-                "status": "healthy",
-                "details": None,
-            }
+            return DatabaseResponse(
+                status="healthy",
+                details=None,
+            )
         except Exception as e:
             self.logger.error(f"MongoDB health check failed: {e}")
-            return {
-                "status": "unhealthy",
-                "details": str(e),
-            }
+            return DatabaseResponse(
+                status="unhealthy",
+                details=str(e),
+            )
 
 
 async def get_database() -> AsyncGenerator[MongoDB, None]:
