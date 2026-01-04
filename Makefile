@@ -37,3 +37,11 @@ tf-apply: tf-plan
 
 tf-destroy:
 	cd src/infra/terraform && terraform destroy -auto-approve
+
+tf-update:
+	cd src/infra/terraform && terraform apply -auto-approve
+
+# Webhook server (run it on the EC2 instance)
+# curl http://<elastic_ip>:8000/health from another device to check if it's running
+run-webhook:
+	poetry run uvicorn src.webhook.app:app --host 0.0.0.0 --port 8000

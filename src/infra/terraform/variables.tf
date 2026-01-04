@@ -41,6 +41,11 @@ variable "root_volume_size" {
     type            = number
 }
 
+variable "application_repo_url" {
+    description     = "URL of the application repository to clone"
+    type            = string
+}
+
 # Variable for IAM Role name
 variable "iam_role_name" {
     description     = "IAM Role name to attach to the EC2 instance"

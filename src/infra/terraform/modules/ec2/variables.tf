@@ -51,3 +51,8 @@ variable "project_name" {
     description     = "Name of the project"
     type            = string
 }
+
+variable "application_repo_url" {
+    description     = "URL of the application repository to clone"
+    type            = string
+}

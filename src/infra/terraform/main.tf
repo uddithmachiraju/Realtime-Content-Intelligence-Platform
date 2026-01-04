@@ -34,6 +34,7 @@ module "EC2" {
     key_name      = var.key_name
     project_name = var.project_name
     environment  = var.environment
+    application_repo_url = var.application_repo_url
 }
 
 module "elastic_ip" {
