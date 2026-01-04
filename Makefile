@@ -1,4 +1,7 @@
-.PHONY: ruff-format ruff-check run-api install-deps help
+.PHONY: ruff-format ruff-check run-api install-deps help tf-init tf-plan tf-apply  aws-configure
+
+aws-configure:
+	cd scripts && chmod +x configure.sh && ./configure.sh
 
 help:
 	echo "ruff-check"
@@ -20,3 +23,17 @@ install-deps:
 run-api:
 	echo "Running FastAPI Server..."
 	python3 -m src.main
+
+# Terraform targets
+tf-init:
+	cd src/infra/terraform && terraform init
+	cd src/infra/terraform && terraform validate
+
+tf-plan: tf-init
+	cd src/infra/terraform && terraform plan
+
+tf-apply: tf-plan
+	cd src/infra/terraform && terraform apply -auto-approve
+
+tf-destroy:
+	cd src/infra/terraform && terraform destroy -auto-approve
