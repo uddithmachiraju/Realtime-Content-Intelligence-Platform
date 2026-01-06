@@ -28,12 +28,10 @@ async def verify_subscription(request: Request) -> str:
     topic = params.get("hub.topic")
     challenge = params.get("hub.challenge")
 
-    logger.debug("Received webhook verification request.",
-                 mode=mode, topic=topic, challenge=challenge)
+    logger.debug("Received webhook verification request.")
 
     if topic and not topic.startswith("https://www.youtube.com/xml/feeds/videos.xml"):
-        logger.error("Invalid topic parameter in verification request.",
-                     topic=topic)
+        logger.error("Invalid topic parameter in verification request.")
         raise HTTPException(status_code=400, detail="Invalid topic parameter.")
 
     if mode == "subscribe":
@@ -42,11 +40,10 @@ async def verify_subscription(request: Request) -> str:
                 "Missing challenge parameter in verification request.")
             raise HTTPException(
                 status_code=400, detail="Missing challenge parameter.")
-        logger.info("Webhook subscription verified.",
-                    mode=mode, challenge=challenge)
+        logger.info("Webhook subscription verified.")
         return challenge
     elif mode == "unsubscribe":
-        logger.info("Webhook unsubscription verified.", mode=mode, topic=topic)
+        logger.info("Webhook unsubscription verified.")
         return PlainTextResponse("Unsubscribed successfully.")
 
     else:
@@ -71,11 +68,10 @@ async def receive_notification(request: Request) -> str:
 
             if not video_id:
                 logger.error(
-                    "Missing video ID in webhook notification.", entry=entry)
+                    "Missing video ID in webhook notification.")
                 continue
 
-            logger.info("New video notification received.",
-                        video_id=video_id, channel_id=channel_id, published=published)
+            logger.info("New video notification received.")
 
             message = {
                 "video_id": video_id,

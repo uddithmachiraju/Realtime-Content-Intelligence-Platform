@@ -1,3 +1,4 @@
+
 import httpx
 
 from src.config.logging import LoggerMixin
@@ -34,8 +35,7 @@ class WebSubManager(LoggerMixin):
             "hub.secret": self.settings.websub_secret,
         }
 
-        self.logger.info("Subscribing to channel.", channel_id=channel_id,
-                         topic_url=topic_url, callback_url=callback_url)
+        self.logger.info("Subscribing to channel.")
 
         try:
             async with httpx.AsyncClient() as client:
@@ -43,22 +43,21 @@ class WebSubManager(LoggerMixin):
             response.raise_for_status()
             if response.status_code in (202, 204):
                 self.logger.info(
-                    "Subscription request accepted.", channel_id=channel_id)
+                    "Subscription request accepted.")
                 return {
                     "status": "subscribed",
                     "channel_id": channel_id,
                     "response_code": response.status_code,
                     "response_text": response.text,
-                    "expires_at": (httpx.Timestamp.now() + self.LEASE_SECONDS).isoformat()
+                    # "expires_at": (datetime.now() + self.LEASE_SECONDS).isoformat()
                 }
             else:
                 self.logger.warning(
-                    "Unexpected response from hub.", channel_id=channel_id,
-                    status_code=response.status_code, response_text=response.text)
+                    "Unexpected response from hub.")
                 return {"status": "error", "channel_id": channel_id, "response_code": response.status_code, "response_text": response.text}
         except httpx.HTTPError as e:
             self.logger.error(
-                "HTTP error during subscription.", channel_id=channel_id, error=str(e))
+                "HTTP error during subscription.")
             return {"status": "error", "channel_id": channel_id, "error": str(e)}
 
     async def unsubscribe(self, channel_id: str) -> dict:
@@ -74,8 +73,7 @@ class WebSubManager(LoggerMixin):
             "hub.secret": self.settings.websub_secret,
         }
 
-        self.logger.info("Unsubscribing from channel.", channel_id=channel_id,
-                         topic_url=topic_url, callback_url=callback_url)
+        self.logger.info("Unsubscribing from channel.")
 
         try:
             async with httpx.AsyncClient() as client:
@@ -83,14 +81,13 @@ class WebSubManager(LoggerMixin):
             response.raise_for_status()
             if response.status_code in (202, 204):
                 self.logger.info(
-                    "Unsubscription request accepted.", channel_id=channel_id)
+                    "Unsubscription request accepted.")
                 return {"status": "unsubscribed", "channel_id": channel_id, "response_code": response.status_code, "response_text": response.text}
             else:
                 self.logger.warning(
-                    "Unexpected response from hub.", channel_id=channel_id,
-                    status_code=response.status_code, response_text=response.text)
+                    "Unexpected response from hub.")
                 return {"status": "error", "channel_id": channel_id, "response_code": response.status_code, "response_text": response.text}
         except httpx.HTTPError as e:
             self.logger.error(
-                "HTTP error during unsubscription.", channel_id=channel_id, error=str(e))
+                "HTTP error during unsubscription.")
             return {"status": "error", "channel_id": channel_id, "error": str(e)}

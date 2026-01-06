@@ -4,6 +4,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.schemas import HealthCheckResponse
+from src.api.subscriptions import router as subscription_router
 from src.config.logging import get_logger, setup_logging
 from src.config.settings import get_settings
 from src.database.db import MongoDB
@@ -32,6 +33,8 @@ app = FastAPI(
     description="API for the YouTube WebSub Pipeline application",
     lifespan=lifespan,
 )
+
+app.include_router(subscription_router)
 
 app.add_middleware(
     CORSMiddleware,

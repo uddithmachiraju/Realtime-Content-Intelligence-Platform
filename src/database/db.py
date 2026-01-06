@@ -33,8 +33,8 @@ class MongoDB(LoggerMixin):
         """Initialize the MongoDB client and database."""
 
         self.settings = get_settings()
-        self.uri = self.settings.mongodb_uri
-        self.db_name = self.settings.mongodb_db_name
+        self.uri = self.settings.MONGODB_URI
+        self.db_name = self.settings.MONGODB_DB_NAME
 
     async def connect(self) -> None:
         """Establish a connection to the MongoDB database."""
