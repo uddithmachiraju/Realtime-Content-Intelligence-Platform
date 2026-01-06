@@ -1,4 +1,4 @@
-.PHONY: ruff-format ruff-check run-api install-deps help tf-init tf-plan tf-apply  aws-configure
+.PHONY: ruff-format ruff-check run-api install-deps help tf-init tf-plan tf-apply aws-configure install-ngrok run-ngrok run-webhook tf-destroy tf-update
 
 aws-configure:
 	cd scripts && chmod +x configure.sh && ./configure.sh
@@ -45,3 +45,10 @@ tf-update:
 # curl http://<elastic_ip>:8000/health from another device to check if it's running
 run-webhook:
 	poetry run uvicorn src.webhook.app:app --host 0.0.0.0 --port 8000
+
+# ngrok
+install-ngrok:
+	cd scripts && chmod +x install_ngrok.sh && ./install_ngrok.sh
+
+run-ngrok:
+	ngrok http 8000
